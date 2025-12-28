@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Malla Curricular Interactiva</title>
+  <style>
+    :root {
+      --primary: #3498db;
+      --success: #2ecc71;
+      --danger: #e74c3c;
+      --bg: #f4f6f8;
+      --text: #2c3e50;
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 20px;
+      line-height: 1.6;
+    }
+
+    h1 { text-align: center; margin-bottom: 30px; }
+
+    .malla {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+
+    .semestre {
+      background: #fff;
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      border-top: 4px solid var(--primary);
+    }
+
+    .semestre h2 {
+      text-align: center;
+      font-size: 1.1rem;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+      margin-bottom: 15px;
+    }
+
+    .materia {
+      background: #f8f9fa;
+      padding: 12px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 1px solid #e1e4e8;
+      position: relative;
+    }
+
+    .materia:hover {
+      background: #edf2f7;
+      transform: translateX(5px);
+      border-color: var(--primary);
+    }
+
+    .materia.bloqueada {
+      background: #ffeded;
+      border-color: var(--danger);
+      color: #c0392b;
+    }
+
+    .materia.aprobada {
+      background: #d4edda;
+      border-color: var(--success);
+      color: #155724;
+      text-decoration: line-through;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      backdrop-filter: blur(3px);
+    }
+
+    .modal-content {
+      background: #fff;
+      padding: 30px;
+      border-radius: 15px;
+      width: 90%;
+      max-width: 450px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+
+    .modal-content h3 { margin-top: 0; }
+    
+    .prerequisitos-lista {
+      background: #f1f3f5;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      margin: 15px 0;
+      text-align: left;
+    }
+
+    .btns-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    button {
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    #btnAprobar { background: var(--success); color: white; }
+    #btnAprobar:hover { background: #27ae60; }
+    #btnCerrar { background: #e9ecef; color: #495057; }
+    #btnCerrar:hover { background: #dee2e6; }
+  </style>
+</head>
+<body>
+
+<h1>Malla Curricular Universitaria</h1>
+
+<div class="malla">
+  <div class="semestre">
+    <h2>1° Semestre</h2>
+    <div class="materia" data-nombre="Calculo 1" data-pre="Ninguno">Calculo 1</div>
+    <div class="materia" data-nombre="Álgebra 1" data-pre="Ninguno">Álgebra 1</div>
+    <div class="materia" data-nombre="Física 1" data-pre="Ninguno">Física 1</div>
+    <div class="materia" data-nombre="Dibujo" data-pre="Ninguno">Dibujo</div>
+    <div class="materia" data-nombre="Programacion básica" data-pre="Ninguno">Programacion básica</div>
+  </div>
+
+  <div class="semestre">
+    <h2>2° Semestre</h2>
+    <div class="materia" data-nombre="Calculo 2" data-pre="Calculo 1">Calculo 2</div>
+    <div class="materia" data-nombre="Álgebra 2" data-pre="Álgebra 1">Álgebra 2</div>
+    <div class="materia" data-nombre="Física aplicada" data-pre="Física 1">Física aplicada</div>
+    <div class="materia" data-nombre="Creatividad y estetica" data-pre="Dibujo">Creatividad y estetica</div>
+    <div class="materia" data-nombre="Programación intermedia" data-pre="Programacion básica">Programación intermedia</div>
+  </div>
+
+  <div class="semestre">
+    <h2>3° Semestre</h2>
+    <div class="materia" data-nombre="Probabilidad y estadistica" data-pre="Calculo 2, Álgebra 2">Probabilidad y estadistica</div>
+    <div class="materia" data-nombre="Fundamentos del diseño y la animacion" data-pre="Programación intermedia, Creatividad y estetica">Fundamentos del diseño y la animacion</div>
+    <div class="materia" data-nombre="Almacenamiento de la información" data-pre="Programación intermedia">Almacenamiento de la información</div>
+    <div class="materia" data-nombre="Narrativa audiovisual-guionismo-storyboard" data-pre="Creatividad y estetica">Narrativa  audiovisual, guionismo, storyboard</div>
+    <div class="materia" data-nombre="Ilustración digital" data-pre="Creatividad y estetica">Ilustración digital</div>
+    <div class="materia" data-nombre="Programación avanzada" data-pre="Programación intermedia">Programación avanzada</div>
+  </div>
+
+  <div class="semestre">
+    <h2>4° Semestre</h2>
+    <div class="materia" data-nombre="Técnicas avanzadas en 3d" data-pre="Programación avanzada, Almacenamiento de la información, Fundamentos de diseño, Narrativa audiovisual-guionismo-storyboard">Técnicas avanzadas en 3d</div>
+    <div class="materia" data-nombre="Señaletica y semiologia de la imagen" data-pre="Fundamentos de diseño, Ilustración digital">Señaletica y semiologia de la imagen</div>
+    <div class="materia" data-nombre="Fotografía y imagen digital" data-pre="Ilustración digital">Fotografía y imagen digital</div>
+    <div class="materia" data-nombre="Modelado 2d y 3d" data-pre="Ilustración digital, Narrativa audiovisual-guionismo-storyboard">Modelado 2d y 3d</div>
+    <div class="materia" data-nombre="Taller de diseño gráfico" data-pre="Probabilidad y estadistica, Fundamentos de diseño, Almacenamiento de la información, Narrativa audiovisual-guionismo-storyboard, Ilustración digital, Programación avanzada">Taller de diseño gráfico</div>
+    <div class="materia" data-nombre="Desarrollo de aplicaciones multimedia" data-pre="Programación avanzada">Desarrollo de aplicaciones multimedia</div>
+  </div>
+
+<div class="semestre" data-sem="5">
+    <h2>5° Semestre</h2>
+    <div class="materia" data-nombre="TALLER DE PRODUCCIÓN MULTIMEDIA E INTERACTIVA" data-pre="Técnicas avanzadas en 3d, Señaletica y simbologia de la imagen, Fotografía y imagen digital, Modelado 2d y 3d, Taller de diseño gráfico, Desarrollo de aplicaciones multimedia">Taller de Prod. Multimedia</div>
+    <div class="materia" data-nombre="AUDIO Y VIDEO DIGITAL" data-pre="Fotografía y imagen digital, Modelado 2d y 3d">Audio y Video Digital</div>
+    <div class="materia" data-nombre="INTERACCIÓN HUMANO COMPUTADOR, DISEÑO DE INT." data-pre="Desarrollo de aplicaciones multimedia">Interacción Humano Computador</div>
+    <div class="materia" data-nombre="ANIMACIÓN DIGITAL 2D Y 3D" data-pre="Fotografía y imagen digital, Modelado 2d y 3d">Animación Digital 2D y 3D</div>
+    <div class="materia" data-nombre="EDICIÓN Y PRODUCCIÓN CINEMATOGRÁFICA DIGITAL" data-pre="Señaletica y simbologia de la imagen, Modelado 2d y 3d">Edición y Prod. Cinematográfica</div>
+    <div class="materia" data-nombre="EFECTOS ESPECIALES DIGITALES(Opcional)" data-pre="Técnicas avanzadas en 3d, Señaletica y simbologia de la imagen, Fotografía y imagen digital, Modelado 2d y 3d, Taller de diseño gráfico, Desarrollo de aplicaciones multimedia">Efectos Especiales Digitales</div>
+    <div class="materia" data-nombre="COMERCIO ELECTRONICO, OUTSOURCING Y FREELANCE" data-pre="Técnicas avanzadas en 3d, Señaletica y simbologia de la imagen, Fotografía y imagen digital, Modelado 2d y 3d, Taller de diseño gráfico, Desarrollo de aplicaciones multimedia">Comercio Electrónico</div>
+    <div class="materia" data-nombre="ÉTICA, INGENIERÍA LEGAL Y EMPRENDEDURISMO" data-pre="Técnicas avanzadas en 3d, Señaletica y simbologia de la imagen, Fotografía y imagen digital, Modelado 2d y 3d, Taller de diseño gráfico, Desarrollo de aplicaciones multimedia">Ética y Emprendedurismo</div>
+  </div>
+
+  <div class="semestre" data-sem="6">
+    <h2>6° Semestre</h2>
+    <div class="materia" data-nombre="INTELIGENCIA ARTIFICIAL" data-pre="Programación avanzada, Probabilidad">Inteligencia Artificial</div>
+    <div class="materia" data-nombre="REDES" data-pre="Programación avanzada, TALLER DE PRODUCCIÓN MULTIMEDIA E INTERACTIVA">Redes</div>
+    <div class="materia" data-nombre="POSTPRODUCCION Y COMPOSICION CINEMATOGRAFICA DIGI." data-pre="EDICIÓN Y PRODUCCIÓN CINEMATOGRÁFICA DIGITAL">Postproducción Cinematográfica</div>
+    <div class="materia" data-nombre="TALLER DE PRODUCCION CINEMATOGRAFICA DIGITAL" data-pre="TALLER DE PRODUCCIÓN MULTIMEDIA E INTERACTIVA, AUDIO Y VIDEO DIGITAL, INTERACCIÓN HUMANO COMPUTADOR, DISEÑO DE INT., ANIMACIÓN DIGITAL 2D Y 3D, EDICIÓN Y PRODUCCIÓN CINEMATOGRÁFICA DIGITAL">Taller Prod. Cinematográfica</div>
+    <div class="materia" data-nombre="METODOLOGIA DE LA INVESTIGACION" data-pre="TALLER DE PRODUCCIÓN MULTIMEDIA E INTERACTIVA, AUDIO Y VIDEO DIGITAL, INTERACCIÓN HUMANO COMPUTADOR, DISEÑO DE INT., ANIMACIÓN DIGITAL 2D Y 3D, EDICIÓN Y PRODUCCIÓN CINEMATOGRÁFICA DIGITAL">Metodología de Investigación</div>
+    <div class="materia" data-nombre="Diseño de escenarios" data-pre="TALLER DE PRODUCCIÓN MULTIMEDIA E INTERACTIVA, AUDIO Y VIDEO DIGITAL, INTERACCIÓN HUMANO COMPUTADOR, DISEÑO DE INT., ANIMACIÓN DIGITAL 2D Y 3D, EDICIÓN Y PRODUCCIÓN CINEMATOGRÁFICA DIGITAL, EFECTOS ESPECIALES DIGITALES, COMERCIO ELECTRONICO, OUTSOURCING Y FREELANCE, ÉTICA, INGENIERÍA LEGAL Y EMPRENDEDURISMO">Diseño de Escenarios</div>
+  </div>
+
+  <div class="semestre" data-sem="7">
+    <h2>7° Semestre</h2>
+    <div class="materia" data-nombre="TECNOLOGIAS DE VIDEOJUEGOS" data-pre="INTELIGENCIA ARTIFICIAL">Tecnologías de Videojuegos</div>
+    <div class="materia" data-nombre="ANIMACION PARA VIDEO JUEGOS" data-pre="INTELIGENCIA ARTIFICIAL, POSTPRODUCCION Y COMPOSICION CINEMATOGRAFICA DIGI.">Animación para Videojuegos</div>
+    <div class="materia" data-nombre="DISEÑO Y PRODUCCIÓN DE VIDEO JUEGOS" data-pre="INTELIGENCIA ARTIFICIAL, REDES, POSTPRODUCCION Y COMPOSICION CINEMATOGRAFICA DIGI., TALLER DE PRODUCCION CINEMATOGRAFICA DIGITAL, METODOLOGIA DE LA INVESTIGACION">Diseño y Prod. de Videojuegos</div>
+    <div class="materia" data-nombre="TALLER DE PRODUCCION DE VIDEO JUEGOS" data-pre="INTELIGENCIA ARTIFICIAL, REDES, POSTPRODUCCION Y COMPOSICION CINEMATOGRAFICA DIGI., TALLER DE PRODUCCION CINEMATOGRAFICA DIGITAL, METODOLOGIA DE LA INVESTIGACION">Taller de Videojuegos</div>
+    <div class="materia" data-nombre="DISEÑO Y ANIMACION DE PERSONAJES" data-pre="INTELIGENCIA ARTIFICIAL">Diseño y Anim. de Personajes</div>
+    <div class="materia" data-nombre="TRABAJO DE TITULACION I" data-pre="INTELIGENCIA ARTIFICIAL, REDES, POSTPRODUCCION Y COMPOSICION CINEMATOGRAFICA DIGI., TALLER DE PRODUCCION CINEMATOGRAFICA DIGITAL, METODOLOGIA DE LA INVESTIGACION">Trabajo de Titulación I</div>
+  </div>
+
+  <div class="semestre" data-sem="8">
+    <h2>8° Semestre</h2>
+    <div class="materia" data-nombre="PRACTICA INSTITUCIONAL" data-pre="TECNOLOGIAS DE VIDEOJUEGOS, ANIMACION PARA VIDEO JUEGOS, DISEÑO Y PRODUCCIÓN DE VIDEO JUEGOS, TALLER DE PRODUCCION DE VIDEO JUEGOS, DISEÑO Y ANIMACION DE PERSONAJES, TRABAJO DE TITULACION I">Práctica Institucional</div>
+    <div class="materia" data-nombre="TRABAJO DE TITULACION II" data-pre="TECNOLOGIAS DE VIDEOJUEGOS, ANIMACION PARA VIDEO JUEGOS, DISEÑO Y PRODUCCIÓN DE VIDEO JUEGOS, TALLER DE PRODUCCION DE VIDEO JUEGOS, DISEÑO Y ANIMACION DE PERSONAJES, TRABAJO DE TITULACION I">Trabajo de Titulación II</div>
+  </div>  
+  
+</div>
+
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <h3 id="modalTitulo">Nombre de Materia</h3>
+    <p>Prerrequisitos necesarios:</p>
+    <div class="prerequisitos-lista" id="modalPre">Ninguno</div>
+    
+    <div class="btns-container">
+      <button id="btnAprobar">Marcar como aprobada</button>
+      <button id="btnCerrar">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  let materiaActual = null;
+  const modal = document.getElementById('modal');
+  const todasLasMaterias = document.querySelectorAll('.materia');
+
+  function actualizarBloqueos() {
+    todasLasMaterias.forEach(materia => {
+      if (materia.classList.contains('aprobada')) {
+        materia.classList.remove('bloqueada');
+        return;
+      }
+
+      const preTexto = materia.dataset.pre;
+      if (preTexto === "Ninguno") {
+        materia.classList.remove('bloqueada');
+        return;
+      }
+
+      const requisitos = preTexto.split(',').map(item => item.trim());
+      let faltantes = false;
+
+      requisitos.forEach(nombrePre => {
+        const materiaPrevia = Array.from(todasLasMaterias).find(m => m.dataset.nombre === nombrePre);
+        if (materiaPrevia && !materiaPrevia.classList.contains('aprobada')) {
+          faltantes = true;
+        }
+      });
+
+      if (faltantes) {
+        materia.classList.add('bloqueada');
+      } else {
+        materia.classList.remove('bloqueada');
+      }
+    });
+  }
+
+  actualizarBloqueos();
+
+  todasLasMaterias.forEach(materia => {
+    materia.addEventListener('click', () => {
+      materiaActual = materia;
+      document.getElementById('modalTitulo').textContent = materia.dataset.nombre;
+      document.getElementById('modalPre').textContent = materia.dataset.pre;
+
+      const btnAprobar = document.getElementById('btnAprobar');
+      btnAprobar.textContent = materia.classList.contains('aprobada') 
+        ? "Quitar aprobación" 
+        : "Marcar como aprobada";
+
+      modal.style.display = 'flex';
+    });
+  });
+
+  function cerrarModal() {
+    modal.style.display = 'none';
+    materiaActual = null;
+  }
+
+  document.getElementById('btnCerrar').addEventListener('click', cerrarModal);
+
+  document.getElementById('btnAprobar').addEventListener('click', () => {
+    if (!materiaActual) return;
+
+    if (materiaActual.classList.contains('aprobada')) {
+      materiaActual.classList.remove('aprobada');
+      actualizarBloqueos();
+      cerrarModal();
+      return;
+    }
+
+    const preTexto = materiaActual.dataset.pre;
+    if (preTexto !== "Ninguno") {
+      const listaPrerequisitos = preTexto.split(',').map(item => item.trim());
+      let faltantes = [];
+      
+      listaPrerequisitos.forEach(nombrePre => {
+        const materiaPrevia = Array.from(todasLasMaterias).find(m => m.dataset.nombre === nombrePre);
+        if (materiaPrevia && !materiaPrevia.classList.contains('aprobada')) {
+          faltantes.push(nombrePre);
+        }
+      });
+
+      if (faltantes.length > 0) {
+        alert(`⚠️ Bloqueado: Debes aprobar primero:\n• ${faltantes.join('\n• ')}`);
+        return;
+      }
+    }
+
+    materiaActual.classList.add('aprobada');
+    materiaActual.classList.remove('bloqueada');
+    actualizarBloqueos();
+    cerrarModal();
+  });
+
+  window.onclick = (e) => { if (e.target === modal) cerrarModal(); };
+</script>
+
+</body>
+</html>
